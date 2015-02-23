@@ -3,7 +3,6 @@ import fileManager.FileManager;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
 
 public class MainForm extends JFrame {
     private JButton button1;
@@ -30,7 +29,7 @@ public class MainForm extends JFrame {
                     words = fm.readFile(fullName);
                 } catch (Exception exc) {}
 
-                System.out.println(Arrays.toString(words));
+                list1.setListData(words);
 
             }
         });
