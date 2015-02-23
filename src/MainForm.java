@@ -1,11 +1,10 @@
+import fileManager.AnagraFileManager;
+import fileManager.FileManager;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
 
-/**
- * Created by Yura on 2/21/2015.
- */
 public class MainForm extends JFrame {
     private JButton button1;
     private JList list1;
@@ -24,13 +23,13 @@ public class MainForm extends JFrame {
             public void mouseClicked(MouseEvent e) {
 
                 String[] words = null;
-
                 super.mouseClicked(e);
-                FileManager fm = FileManager.getInstance();
+                FileManager fm = AnagraFileManager.getInstance();
                 String fullName = fm.loadFile();
                 try {
-                    words = fm.read(fullName);
+                    words = fm.readFile(fullName);
                 } catch (Exception exc) {}
+
                 System.out.println(Arrays.toString(words));
 
             }
