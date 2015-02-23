@@ -5,9 +5,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MainForm extends JFrame {
-    private JButton button1;
-    private JList list1;
+    private JButton openFileButton;
+    private JList inputList;
     private JPanel rootPanel;
+    private JButton generateButton;
+    private JTextField minLettersField;
+    private JLabel fileLabel;
+    private JLabel minLettersLabel;
+    private JProgressBar progressBar1;
+    private JList list1;
+    private JButton экспортButton;
 
     public MainForm() {
         super();
@@ -17,7 +24,7 @@ public class MainForm extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        button1.addMouseListener(new MouseAdapter() {
+        openFileButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
 
@@ -29,7 +36,8 @@ public class MainForm extends JFrame {
                     words = fm.readFile(fullName);
                 } catch (Exception exc) {}
 
-                list1.setListData(words);
+                fileLabel.setText(fullName);
+                inputList.setListData(words);
 
             }
         });
