@@ -1,5 +1,7 @@
 package formMediator;
 
+import anagramFinder.AnagramFinder;
+import anagramFinder.DefaultAnagramFinder;
 import fileManager.AnagraFileManager;
 import fileManager.FileManager;
 import mainForm.MainForm;
@@ -21,6 +23,12 @@ public class FormMediator {
             }
         }
 
+        if (componentName.equals("generateButton")) {
+            if (eventName.equals("click")) {
+                getAnagrams();
+            }
+        }
+
     }
 
     private void openFile() {
@@ -37,6 +45,25 @@ public class FormMediator {
 
         fileLabel.setText(fullName);
         inputList.setListData(words);
+
+    }
+
+    private void getAnagrams() {
+
+        JList inputList = (JList) form.getComponentByName("inputList");
+        JList outputList = (JList) form.getComponentByName("outputList");
+
+        DefaultAnagramFinder af = new DefaultAnagramFinder();
+
+        ListModel model = inputList.getModel();
+        int modelSize = model.getSize();
+        String[] inputWords = new String[modelSize];
+        for (int i=0; i<modelSize; i++) {
+            inputWords[i] = model.getElementAt(i).toString();
+        }
+
+        String[] outputWords = af.generateAnagrams(inputWords, 5);
+        outputList.setListData(outputWords);
 
     }
 

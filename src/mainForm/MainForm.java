@@ -11,6 +11,8 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
 public class MainForm extends JFrame {
+    private JScrollPane JScrollPane1;
+    private JScrollPane JScrollPane2;
     private JButton openFileButton;
     private JList inputList;
     private JPanel rootPanel;
@@ -21,6 +23,7 @@ public class MainForm extends JFrame {
     private JProgressBar progressBar1;
     private JList outputList;
     private JButton exportButton;
+
 
     private HashMap<String,Component> componentMap;
     private FormMediator mediator;
@@ -40,7 +43,6 @@ public class MainForm extends JFrame {
         //configuring mediator
         mediator = new FormMediator(this);
         fileLabel.setName("fileLabel");
-        inputList.setName("inputList");
         openFileButton.setName("openFileButton");
         createComponentMap();
 
@@ -48,6 +50,13 @@ public class MainForm extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 mediator.trigger("openFileButton", "click");
+            }
+        });
+
+        generateButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                mediator.trigger("generateButton", "click");
             }
         });
 
@@ -59,6 +68,8 @@ public class MainForm extends JFrame {
         for (int i=0; i < components.length; i++) {
             componentMap.put(components[i].getName(), (JComponent) components[i]);
         }
+        componentMap.put("inputList", (JComponent) inputList);
+        componentMap.put("outputList", (JComponent) outputList);
     }
 
     public JComponent getComponentByName(String name) {
