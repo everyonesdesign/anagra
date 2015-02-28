@@ -63,7 +63,6 @@ public class FormMediator {
 
         JProgressBar generationProgress = (JProgressBar) form.getComponentByName("generationProgress");
         generationProgress.setValue(value);
-        //generationProgress.repaint();
 
     }
 
@@ -72,22 +71,31 @@ public class FormMediator {
         outputList.setListData(outputWords);
     }
 
+
+
     private void getAnagrams() {
 
         JList inputList = (JList) form.getComponentByName("inputList");
-        JList outputList = (JList) form.getComponentByName("outputList");
 
-
-        DefaultAnagramFinder af = new DefaultAnagramFinder();
+        final DefaultAnagramFinder af = new DefaultAnagramFinder();
+        final FormMediator mediator = this;
 
         ListModel model = inputList.getModel();
         int modelSize = model.getSize();
-        String[] inputWords = new String[modelSize];
+        final String[] inputWords = new String[modelSize];
         for (int i=0; i<modelSize; i++) {
             inputWords[i] = model.getElementAt(i).toString();
         }
 
-        af.generateAnagrams(inputWords, this);
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                af.generateAnagrams(inputWords, mediator);
+            }
+
+        }).start();
+
     }
 
 }
