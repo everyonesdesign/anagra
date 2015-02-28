@@ -1,5 +1,8 @@
 package anagramFinder;
 
+import formMediator.FormMediator;
+
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,9 +10,20 @@ import java.util.List;
 public class DefaultAnagramFinder implements AnagramFinder {
 
     @Override
-    public String[] generateAnagrams(String[] sourceWords, int minLetters) {
+    public void generateAnagrams(String[] sourceWords, FormMediator mediator) {
 
+        int sourceWordsLength = sourceWords.length;
+        int minLetters;
         List<String> outputList = new ArrayList<String>();
+        Object[] outputArray;
+        String[] outputStringsArray;
+
+        try {
+            minLetters = mediator.getMinLetters();
+        } catch (NumberFormatException error) {
+            JOptionPane.showMessageDialog(null,"Введите корректное число!");
+            return;
+        }
 
         for (int i=0; i<sourceWords.length; i++) {
             for (int j=0; j<sourceWords.length; j++) {
@@ -18,15 +32,18 @@ public class DefaultAnagramFinder implements AnagramFinder {
                     outputList.add(sourceWords[i] + " - " + sourceWords[j]);
                     //set word with second index to empty so anagrams won't repeat
                     sourceWords[j] = "";
+
+                    // generate string array variable from the list
+                    outputArray = outputList.toArray();
+                    outputStringsArray =  Arrays.copyOf(outputArray, outputArray.length, String[].class);
+                    mediator.setOutputListData(outputStringsArray);
                 }
             }
+
+            mediator.setProgress(i * 100 / (sourceWordsLength - 1));
         }
 
-        // generate string array variable from the list
-        Object[] outputArray = outputList.toArray();
-        String[] outputStringsArray =  Arrays.copyOf(outputArray, outputArray.length, String[].class);
 
-        return outputStringsArray;
     }
 
     public boolean compare(String word1, String word2) {

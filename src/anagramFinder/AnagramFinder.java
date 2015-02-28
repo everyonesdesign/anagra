@@ -1,7 +1,9 @@
 package anagramFinder;
 
+import formMediator.FormMediator;
+
 public interface AnagramFinder {
 
-    public String[] generateAnagrams(String[] sourceWords, int minLetters);
+    public void generateAnagrams(String[] sourceWords, FormMediator mediator);
 
 }

@@ -20,7 +20,7 @@ public class MainForm extends JFrame {
     private JTextField minLettersField;
     private JLabel fileLabel;
     private JLabel minLettersLabel;
-    private JProgressBar progressBar1;
+    private JProgressBar generationProgress;
     private JList outputList;
     private JButton exportButton;
 
@@ -45,6 +45,7 @@ public class MainForm extends JFrame {
         fileLabel.setName("fileLabel");
         minLettersField.setName("minLettersField");
         openFileButton.setName("openFileButton");
+        generationProgress.setName("generationProgress");
         createComponentMap();
 
         openFileButton.addMouseListener(new MouseAdapter() {

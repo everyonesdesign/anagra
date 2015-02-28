@@ -52,11 +52,31 @@ public class FormMediator {
 
     }
 
+    public int getMinLetters() throws NumberFormatException {
+        JTextField minLettersField = (JTextField) form.getComponentByName("minLettersField");
+        int minLettersFiendValue;
+        minLettersFiendValue = Integer.parseInt(minLettersField.getText());
+        return minLettersFiendValue;
+    }
+
+    public void setProgress(int value) {
+
+        JProgressBar generationProgress = (JProgressBar) form.getComponentByName("generationProgress");
+        generationProgress.setValue(value);
+        //generationProgress.repaint();
+
+    }
+
+    public void setOutputListData(String[] outputWords) {
+        JList outputList = (JList) form.getComponentByName("outputList");
+        outputList.setListData(outputWords);
+    }
+
     private void getAnagrams() {
 
         JList inputList = (JList) form.getComponentByName("inputList");
         JList outputList = (JList) form.getComponentByName("outputList");
-        JTextField minLettersField = (JTextField) form.getComponentByName("minLettersField");
+
 
         DefaultAnagramFinder af = new DefaultAnagramFinder();
 
@@ -67,9 +87,7 @@ public class FormMediator {
             inputWords[i] = model.getElementAt(i).toString();
         }
 
-        String[] outputWords = af.generateAnagrams(inputWords, Integer.parseInt(minLettersField.getText()));
-        outputList.setListData(outputWords);
-
+        af.generateAnagrams(inputWords, this);
     }
 
 }
