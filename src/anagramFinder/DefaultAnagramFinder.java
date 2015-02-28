@@ -25,6 +25,8 @@ public class DefaultAnagramFinder implements AnagramFinder {
             return;
         }
 
+        mediator.setOutputListData(new String[0]);
+
         for (int i=0; i<sourceWords.length; i++) {
 
             //check: if current thread is interrupted then go out of the function

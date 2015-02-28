@@ -23,6 +23,7 @@ public class MainForm extends JFrame {
     private JProgressBar generationProgress;
     private JList outputList;
     private JButton exportButton;
+    private JLabel statusLabel;
 
 
     private HashMap<String,Component> componentMap;
@@ -47,6 +48,7 @@ public class MainForm extends JFrame {
         openFileButton.setName("openFileButton");
         generationProgress.setName("generationProgress");
         generateButton.setName("generateButton");
+        statusLabel.setName("statusLabel");
         createComponentMap();
 
         openFileButton.addMouseListener(new MouseAdapter() {

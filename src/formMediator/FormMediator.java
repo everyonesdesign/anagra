@@ -71,6 +71,7 @@ public class FormMediator {
 
         JProgressBar generationProgress = (JProgressBar) form.getComponentByName("generationProgress");
         generationProgress.setValue(value);
+        generationProgress.setString(Integer.toString(value)+"%");
 
     }
 
@@ -81,12 +82,16 @@ public class FormMediator {
 
     public void beforeGetAnagrams() {
         JButton generateButton = (JButton) form.getComponentByName("generateButton");
+        JLabel statusLabel = (JLabel) form.getComponentByName("statusLabel");
         generateButton.setText("Остановить");
+        statusLabel.setText("Генерация...");
         generationInProgress = true;
     }
 
     public void afterGetAnagrams() {
         JButton generateButton = (JButton) form.getComponentByName("generateButton");
+        JLabel statusLabel = (JLabel) form.getComponentByName("statusLabel");
+        statusLabel.setText("");
         generationInProgress = false;
         generateButton.setText("Генерировать слова");
     }
