@@ -14,7 +14,7 @@ public class DefaultAnagramFinder implements AnagramFinder {
         for (int i=0; i<sourceWords.length; i++) {
             for (int j=0; j<sourceWords.length; j++) {
                 //if the word is not empty and not the same and their letters match
-                if (sourceWords[i].length()>= minLetters && !sourceWords[i].equals(sourceWords[j]) && compare(sourceWords[i], sourceWords[j])) {
+                if (getStringSize(sourceWords[i])>= minLetters && !sourceWords[i].equals(sourceWords[j]) && compare(sourceWords[i], sourceWords[j])) {
                     outputList.add(sourceWords[i] + " - " + sourceWords[j]);
                     //set word with second index to empty so anagrams won't repeat
                     sourceWords[j] = "";
@@ -31,6 +31,9 @@ public class DefaultAnagramFinder implements AnagramFinder {
 
     public boolean compare(String word1, String word2) {
 
+        word1 = stripSymbols(word1);
+        word2 = stripSymbols(word2);
+
         //word 1 to lower-cased sorted array
         char[] word1Array = word1.toLowerCase().toCharArray();
         Arrays.sort(word1Array);
@@ -41,6 +44,15 @@ public class DefaultAnagramFinder implements AnagramFinder {
 
         return Arrays.equals(word1Array, word2Array);
 
+    }
+
+    private String stripSymbols(String string) {
+        return string.replaceAll("\\.|,|\\-_", "");
+    }
+
+    private int getStringSize(String string) {
+        string = stripSymbols(string);
+        return string.length();
     }
 
 }
