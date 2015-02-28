@@ -1,5 +1,6 @@
 package formMediator;
 
+import anagramFinder.AnagramFinder;
 import anagramFinder.DefaultAnagramFinder;
 import fileManager.AnagraFileManager;
 import fileManager.FileManager;
@@ -71,13 +72,11 @@ public class FormMediator {
         outputList.setListData(outputWords);
     }
 
-
-
     private void getAnagrams() {
 
         JList inputList = (JList) form.getComponentByName("inputList");
 
-        final DefaultAnagramFinder af = new DefaultAnagramFinder();
+        final AnagramFinder af = new DefaultAnagramFinder();
         final FormMediator mediator = this;
 
         ListModel model = inputList.getModel();
