@@ -16,6 +16,7 @@ public class QuickAnagramFinder implements AnagramFinder {
         List<String> correctedInputList = new ArrayList<String>();
         List<String> outputList = new ArrayList<String>();
         int correctedInputListLength;
+        int globalWordsLoopCounter = 0;
         String word1;
         String word2;
 
@@ -28,57 +29,70 @@ public class QuickAnagramFinder implements AnagramFinder {
 
         mediator.setOutputListData(new String[0]);
 
-        for (int i=0; i<sourceWords.length; i++) {
+        int lettersLoop = minLetters;
+        while (true) {
 
-            //check: if current thread is interrupted then go out of the function
-            if (Thread.currentThread().isInterrupted()) {
-                return;
-            }
+            correctedInputList.clear();
+            int maxLetters = 0;
 
-            if (sourceWords[i].length() >= minLetters) {
-                correctedInputList.add(sourceWords[i]);
-            }
-        }
+            for (int i=0; i<sourceWords.length; i++) {
 
-        correctedInputListLength = correctedInputList.size();
-
-        for (int i=0; i<correctedInputListLength; i++) {
-
-            word1 = correctedInputList.get(i);
-
-            //check: if current thread is interrupted then go out of the function
-            if (Thread.currentThread().isInterrupted()) {
-
-                // generate string array variable from the list
-                setData(mediator, outputList);
-
-                return;
-            }
-
-            for (int j=0; j<correctedInputListLength; j++) {
-
-                word2 = correctedInputList.get(j);
-
-                //if the word is not empty and not the same and their letters match
-                if (getStringSize(word1) >= minLetters && !word1.equals(word2) && compare(word1, word2)) {
-                    outputList.add(0, word1 + " - " + word2);
-
-                    //set word with second index to empty so anagrams won't repeat
-                    correctedInputList.remove(j);
-                    j--;
-                    correctedInputListLength = correctedInputList.size();
+                //calculate max length to break when needed
+                if (getStringSize(sourceWords[i]) > maxLetters) {
+                    maxLetters = sourceWords[i].length();
                 }
 
-                // generate string array variable from the list
-                if (j%1000==0) {
-                    setData(mediator, outputList);
-                    mediator.setProgress(i*100 / (correctedInputListLength));
+                //add appropriate words
+                if (getStringSize(sourceWords[i]) == lettersLoop) {
+                    correctedInputList.add(sourceWords[i]);
                 }
+
             }
 
-            correctedInputList.remove(i);
-            i--;
+            if (lettersLoop ==  maxLetters+1) break;
+            lettersLoop++;
+
             correctedInputListLength = correctedInputList.size();
+
+            for (int i=0; i<correctedInputListLength; i++) {
+
+                word1 = correctedInputList.get(i);
+
+                //check: if current thread is interrupted then go out of the function
+                if (Thread.currentThread().isInterrupted()) {
+                    // generate string array variable from the list
+                    setData(mediator, outputList);
+                    return;
+                }
+
+                for (int j=0; j<correctedInputListLength; j++) {
+
+                    word2 = correctedInputList.get(j);
+
+                    //if the word is not empty and not the same and their letters match
+                    if (!word1.equals(word2) && compare(word1, word2)) {
+                        outputList.add(0, word1 + " - " + word2);
+
+                        //set word with second index to empty so anagrams won't repeat
+                        correctedInputList.remove(j);
+                        j--;
+                        correctedInputListLength = correctedInputList.size();
+                    }
+
+                }
+
+                // generate string array variable from the list
+                if (i%100==0) {
+                    setData(mediator, outputList);
+                    mediator.setProgress(globalWordsLoopCounter*100 /sourceWords.length);
+                }
+
+                globalWordsLoopCounter++;
+                correctedInputList.remove(i);
+                i--;
+                correctedInputListLength = correctedInputList.size();
+
+            }
 
         }
 
