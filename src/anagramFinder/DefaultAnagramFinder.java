@@ -35,7 +35,7 @@ public class DefaultAnagramFinder implements AnagramFinder {
             for (int j=0; j<sourceWords.length; j++) {
                 //if the word is not empty and not the same and their letters match
                 if (getStringSize(sourceWords[i])>= minLetters && !sourceWords[i].equals(sourceWords[j]) && compare(sourceWords[i], sourceWords[j])) {
-                    outputList.add(sourceWords[i] + " - " + sourceWords[j]);
+                    outputList.add(0, sourceWords[i] + " - " + sourceWords[j]);
                     //set word with second index to empty so anagrams won't repeat
                     sourceWords[j] = "";
 
