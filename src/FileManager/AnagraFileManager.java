@@ -20,12 +20,18 @@ public class AnagraFileManager implements FileManager {
     }
 
     public String loadFile() {
+
         FileDialog fd = new FileDialog(new JFrame(), "Выберите файл", FileDialog.LOAD);
         fd.setFile("*.txt");
         fd.setVisible(true);
-        String directory = fd.getDirectory();
         String filename = fd.getFile();
-        return directory + filename;
+        if (filename != null) {
+            String directory = fd.getDirectory();
+            return directory + filename;
+        } else {
+            return "";
+        }
+
     }
 
     public String[] readFile(String fullFilename) throws IOException {

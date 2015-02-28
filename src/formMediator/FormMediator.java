@@ -1,6 +1,5 @@
 package formMediator;
 
-import anagramFinder.AnagramFinder;
 import anagramFinder.DefaultAnagramFinder;
 import fileManager.AnagraFileManager;
 import fileManager.FileManager;
@@ -39,12 +38,17 @@ public class FormMediator {
         String[] words = null;
         FileManager fm = AnagraFileManager.getInstance();
         String fullName = fm.loadFile();
-        try {
-            words = fm.readFile(fullName);
-        } catch (Exception exc) {}
 
-        fileLabel.setText(fullName);
-        inputList.setListData(words);
+        if (!fullName.equals("")) {
+
+            try {
+                words = fm.readFile(fullName);
+            } catch (Exception exc) {}
+
+            fileLabel.setText(fullName);
+            inputList.setListData(words);
+
+        }
 
     }
 
