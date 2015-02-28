@@ -10,6 +10,8 @@ import javax.swing.*;
 public class FormMediator {
 
     private MainForm form;
+    private boolean generationInProgress = false;
+    private Thread generationThread;
 
     public FormMediator(MainForm form) {
         this.form = form;
@@ -25,7 +27,12 @@ public class FormMediator {
 
         if (componentName.equals("generateButton")) {
             if (eventName.equals("click")) {
-                getAnagrams();
+                if (generationInProgress) {
+                    generationThread.interrupt();
+                    afterGetAnagrams();
+                } else {
+                    getAnagrams();
+                }
             }
         }
 
@@ -72,12 +79,26 @@ public class FormMediator {
         outputList.setListData(outputWords);
     }
 
+    public void beforeGetAnagrams() {
+        JButton generateButton = (JButton) form.getComponentByName("generateButton");
+        generateButton.setText("Остановить");
+        generationInProgress = true;
+    }
+
+    public void afterGetAnagrams() {
+        JButton generateButton = (JButton) form.getComponentByName("generateButton");
+        generationInProgress = false;
+        generateButton.setText("Генерировать слова");
+    }
+
     private void getAnagrams() {
 
         JList inputList = (JList) form.getComponentByName("inputList");
 
         final AnagramFinder af = new DefaultAnagramFinder();
         final FormMediator mediator = this;
+
+        beforeGetAnagrams();
 
         ListModel model = inputList.getModel();
         int modelSize = model.getSize();
@@ -86,14 +107,15 @@ public class FormMediator {
             inputWords[i] = model.getElementAt(i).toString();
         }
 
-        new Thread(new Runnable() {
+        generationThread = new Thread(new Runnable() {
 
             @Override
             public void run() {
                 af.generateAnagrams(inputWords, mediator);
             }
 
-        }).start();
+        });
+        generationThread.start();
 
     }
 

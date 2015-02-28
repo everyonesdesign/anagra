@@ -46,6 +46,7 @@ public class MainForm extends JFrame {
         minLettersField.setName("minLettersField");
         openFileButton.setName("openFileButton");
         generationProgress.setName("generationProgress");
+        generateButton.setName("generateButton");
         createComponentMap();
 
         openFileButton.addMouseListener(new MouseAdapter() {

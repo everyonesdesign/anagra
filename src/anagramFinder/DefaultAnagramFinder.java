@@ -26,6 +26,12 @@ public class DefaultAnagramFinder implements AnagramFinder {
         }
 
         for (int i=0; i<sourceWords.length; i++) {
+
+            //check: if current thread is interrupted then go out of the function
+            if (Thread.currentThread().isInterrupted()) {
+                return;
+            }
+
             for (int j=0; j<sourceWords.length; j++) {
                 //if the word is not empty and not the same and their letters match
                 if (getStringSize(sourceWords[i])>= minLetters && !sourceWords[i].equals(sourceWords[j]) && compare(sourceWords[i], sourceWords[j])) {
@@ -43,6 +49,7 @@ public class DefaultAnagramFinder implements AnagramFinder {
             mediator.setProgress(i * 100 / (sourceWordsLength - 1));
         }
 
+        mediator.afterGetAnagrams();
 
     }
 
