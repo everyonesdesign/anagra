@@ -14,7 +14,7 @@ public class DefaultAnagramFinder implements AnagramFinder {
         for (int i=0; i<sourceWords.length; i++) {
             for (int j=0; j<sourceWords.length; j++) {
                 //if the word is not empty and not the same and their letters match
-                if (sourceWords[i].length()>minLetters && sourceWords[i] != sourceWords[j] && compare(sourceWords[i], sourceWords[j])) {
+                if (sourceWords[i].length()>= minLetters && !sourceWords[i].equals(sourceWords[j]) && compare(sourceWords[i], sourceWords[j])) {
                     outputList.add(sourceWords[i] + " - " + sourceWords[j]);
                     //set word with second index to empty so anagrams won't repeat
                     sourceWords[j] = "";

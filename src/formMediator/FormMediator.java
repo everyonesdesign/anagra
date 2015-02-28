@@ -56,6 +56,7 @@ public class FormMediator {
 
         JList inputList = (JList) form.getComponentByName("inputList");
         JList outputList = (JList) form.getComponentByName("outputList");
+        JTextField minLettersField = (JTextField) form.getComponentByName("minLettersField");
 
         DefaultAnagramFinder af = new DefaultAnagramFinder();
 
@@ -66,7 +67,7 @@ public class FormMediator {
             inputWords[i] = model.getElementAt(i).toString();
         }
 
-        String[] outputWords = af.generateAnagrams(inputWords, 5);
+        String[] outputWords = af.generateAnagrams(inputWords, Integer.parseInt(minLettersField.getText()));
         outputList.setListData(outputWords);
 
     }

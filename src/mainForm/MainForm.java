@@ -43,6 +43,7 @@ public class MainForm extends JFrame {
         //configuring mediator
         mediator = new FormMediator(this);
         fileLabel.setName("fileLabel");
+        minLettersField.setName("minLettersField");
         openFileButton.setName("openFileButton");
         createComponentMap();
 
