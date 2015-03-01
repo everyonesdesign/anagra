@@ -30,67 +30,73 @@ public class QuickAnagramFinder implements AnagramFinder {
         mediator.setOutputListData(new String[0]);
 
         int lettersLoop = minLetters;
+        outerLoop:
         while (true) {
 
-            correctedInputList.clear();
-            int maxLetters = 0;
+            for (int m=0; m<2; m++) {
 
-            for (int i=0; i<sourceWords.length; i++) {
+                correctedInputList.clear();
+                int maxLetters = 0;
 
-                //calculate max length to break when needed
-                if (getStringSize(sourceWords[i]) > maxLetters) {
-                    maxLetters = sourceWords[i].length();
-                }
+                for (int i=0; i<sourceWords.length; i++) {
 
-                //add appropriate words
-                if (getStringSize(sourceWords[i]) == lettersLoop) {
-                    correctedInputList.add(sourceWords[i]);
-                }
+                    //calculate max length to break when needed
+                    if (getStringSize(sourceWords[i]) > maxLetters) {
+                        maxLetters = sourceWords[i].length();
+                    }
 
-            }
-
-            if (lettersLoop ==  maxLetters+1) break;
-            lettersLoop++;
-
-            correctedInputListLength = correctedInputList.size();
-
-            for (int i=0; i<correctedInputListLength; i++) {
-
-                word1 = correctedInputList.get(i);
-
-                //check: if current thread is interrupted then go out of the function
-                if (Thread.currentThread().isInterrupted()) {
-                    // generate string array variable from the list
-                    setData(mediator, outputList);
-                    return;
-                }
-
-                for (int j=0; j<correctedInputListLength; j++) {
-
-                    word2 = correctedInputList.get(j);
-
-                    //if the word is not empty and not the same and their letters match
-                    if (!word1.equals(word2) && compare(word1, word2)) {
-                        outputList.add(0, word1 + " - " + word2);
-
-                        //set word with second index to empty so anagrams won't repeat
-                        correctedInputList.remove(j);
-                        j--;
-                        correctedInputListLength = correctedInputList.size();
+                    //add appropriate words
+                    if (getStringSize(sourceWords[i])==lettersLoop && ( ( checkO(sourceWords[i]) && m==0 ) || !checkO(sourceWords[i]) && m==1 ) ) {
+                        correctedInputList.add(sourceWords[i]);
                     }
 
                 }
 
-                // generate string array variable from the list
-                if (i%100==0) {
-                    setData(mediator, outputList);
-                    mediator.setProgress(globalWordsLoopCounter*100 /sourceWords.length);
-                }
+                if (lettersLoop ==  maxLetters+1 && m==1) break outerLoop;
 
-                globalWordsLoopCounter++;
-                correctedInputList.remove(i);
-                i--;
+                if (m==1) lettersLoop++;
+
                 correctedInputListLength = correctedInputList.size();
+
+                for (int i=0; i<correctedInputListLength; i++) {
+
+                    word1 = correctedInputList.get(i);
+
+                    //check: if current thread is interrupted then go out of the function
+                    if (Thread.currentThread().isInterrupted()) {
+                        // generate string array variable from the list
+                        setData(mediator, outputList);
+                        return;
+                    }
+
+                    for (int j=0; j<correctedInputListLength; j++) {
+
+                        word2 = correctedInputList.get(j);
+
+                        //if the word is not empty and not the same and their letters match
+                        if (!word1.equals(word2) && compare(word1, word2)) {
+                            outputList.add(0, word1 + " - " + word2);
+
+                            //set word with second index to empty so anagrams won't repeat
+                            correctedInputList.remove(j);
+                            j--;
+                            correctedInputListLength = correctedInputList.size();
+                        }
+
+                    }
+
+                    // generate string array variable from the list
+                    if (i%100==0) {
+                        setData(mediator, outputList);
+                        mediator.setProgress(globalWordsLoopCounter*100 /sourceWords.length);
+                    }
+
+                    globalWordsLoopCounter++;
+                    correctedInputList.remove(i);
+                    i--;
+                    correctedInputListLength = correctedInputList.size();
+
+                }
 
             }
 
@@ -124,6 +130,10 @@ public class QuickAnagramFinder implements AnagramFinder {
 
         return Arrays.equals(word1Array, word2Array);
 
+    }
+
+    private boolean checkO(String word) {
+        return word.toLowerCase().contains("о");
     }
 
     private String stripSymbols(String string) {

@@ -4,7 +4,6 @@ import anagramFinder.AnagramFinder;
 import anagramFinder.DefaultAnagramFinder;
 import anagramFinder.QuickAnagramFinder;
 import fileManager.AnagraFileManager;
-import fileManager.FileManager;
 import mainForm.MainForm;
 import javax.swing.*;
 
@@ -45,7 +44,7 @@ public class FormMediator {
         JList inputList = (JList) form.getComponentByName("inputList");
 
         String[] words = null;
-        FileManager fm = AnagraFileManager.getInstance();
+        AnagraFileManager fm = AnagraFileManager.getInstance();
         String fullName = fm.loadFile();
 
         if (!fullName.equals("")) {
