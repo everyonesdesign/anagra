@@ -58,7 +58,7 @@ public class AnagraFileManager implements FileManager {
                 writer = new PrintWriter(file, "UTF-8");
 
                 for (String word : words) {
-                    writer.println(word+"\n");
+                    writer.println(word);
                 }
 
                 writer.close();
