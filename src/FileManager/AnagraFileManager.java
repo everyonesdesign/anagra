@@ -2,9 +2,7 @@ package fileManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class AnagraFileManager implements FileManager {
@@ -45,6 +43,28 @@ public class AnagraFileManager implements FileManager {
         }
         bufferedReader.close();
         return lines.toArray(new String[lines.size()]);
+
+    }
+
+    public void saveFile(String[] words) {
+
+        JFileChooser fileChooser = new JFileChooser();
+
+        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            PrintWriter writer;
+
+            try {
+                writer = new PrintWriter(file, "UTF-8");
+
+                for (String word : words) {
+                    writer.println(word+"\n");
+                }
+
+                writer.close();
+            } catch (Exception e) {}
+
+        }
 
     }
 

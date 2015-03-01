@@ -134,7 +134,7 @@ public class FormMediator {
 
     private void saveResults() {
 
-        JFileChooser fileChooser = new JFileChooser();
+        AnagraFileManager fm = AnagraFileManager.getInstance();
         JList outputList = (JList) form.getComponentByName("outputList");
 
         //get generated words
@@ -145,21 +145,7 @@ public class FormMediator {
             outputWords[i] = model.getElementAt(i).toString();
         }
 
-        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            PrintWriter writer;
-
-            try {
-                writer = new PrintWriter(file, "UTF-8");
-
-                for (String outputWord : outputWords) {
-                    writer.println(outputWord+"\n");
-                }
-
-                writer.close();
-            } catch (Exception e) {}
-
-        }
+        fm.saveFile(outputWords);
 
     }
 
