@@ -25,7 +25,6 @@ public class MainForm extends JFrame {
     private JButton exportButton;
     private JLabel statusLabel;
 
-
     private HashMap<String,Component> componentMap;
     private FormMediator mediator;
 
@@ -41,16 +40,11 @@ public class MainForm extends JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 
+        //configuring progress bar
         generationProgress.setStringPainted(true);
 
         //configuring mediator
         mediator = new FormMediator(this);
-        fileLabel.setName("fileLabel");
-        minLettersField.setName("minLettersField");
-        openFileButton.setName("openFileButton");
-        generationProgress.setName("generationProgress");
-        generateButton.setName("generateButton");
-        statusLabel.setName("statusLabel");
         createComponentMap();
 
         openFileButton.addMouseListener(new MouseAdapter() {
@@ -71,12 +65,15 @@ public class MainForm extends JFrame {
 
     private void createComponentMap() {
         componentMap = new HashMap<String,Component>();
-        Component[] components = this.getContentPane().getComponents();
-        for (int i=0; i < components.length; i++) {
-            componentMap.put(components[i].getName(), (JComponent) components[i]);
-        }
         componentMap.put("inputList", (JComponent) inputList);
         componentMap.put("outputList", (JComponent) outputList);
+        componentMap.put("fileLabel", (JComponent) fileLabel);
+        componentMap.put("minLettersField", (JComponent) minLettersField);
+        componentMap.put("openFileButton", (JComponent) openFileButton);
+        componentMap.put("generationProgress", (JComponent) generationProgress);
+        componentMap.put("generateButton", (JComponent) generateButton);
+        componentMap.put("statusLabel", (JComponent) statusLabel);
+        componentMap.put("exportButton", (JComponent) exportButton);
     }
 
     public JComponent getComponentByName(String name) {
