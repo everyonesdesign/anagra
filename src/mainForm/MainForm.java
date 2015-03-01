@@ -54,6 +54,13 @@ public class MainForm extends JFrame {
             }
         });
 
+        exportButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                mediator.trigger("exportButton", "click");
+            }
+        });
+
         generateButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

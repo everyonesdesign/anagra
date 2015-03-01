@@ -6,6 +6,8 @@ import anagramFinder.QuickAnagramFinder;
 import fileManager.AnagraFileManager;
 import mainForm.MainForm;
 import javax.swing.*;
+import java.io.File;
+import java.io.PrintWriter;
 
 public class FormMediator {
 
@@ -33,6 +35,12 @@ public class FormMediator {
                 } else {
                     getAnagrams();
                 }
+            }
+        }
+
+        if (componentName.equals("exportButton")) {
+            if (eventName.equals("click")) {
+                saveResults();
             }
         }
 
@@ -121,6 +129,37 @@ public class FormMediator {
 
         });
         generationThread.start();
+
+    }
+
+    private void saveResults() {
+
+        JFileChooser fileChooser = new JFileChooser();
+        JList outputList = (JList) form.getComponentByName("outputList");
+
+        //get generated words
+        ListModel model = outputList.getModel();
+        int modelSize = model.getSize();
+        String[] outputWords = new String[modelSize];
+        for (int i=0; i<modelSize; i++) {
+            outputWords[i] = model.getElementAt(i).toString();
+        }
+
+        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            PrintWriter writer;
+
+            try {
+                writer = new PrintWriter(file, "UTF-8");
+
+                for (String outputWord : outputWords) {
+                    writer.println(outputWord+"\n");
+                }
+
+                writer.close();
+            } catch (Exception e) {}
+
+        }
 
     }
 
